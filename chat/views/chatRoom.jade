@@ -1,15 +1,5 @@
-doctype html
-html(lang='en')
-  head
-    title Chat Realtime
-    mata(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    link(href='css/style.css', rel='stylesheet')
-    script(src='javascripts/jquery.min.js')
-    link(href='css/bootstrap.min.css', rel='stylesheet')
-    script(src='javascripts/main.js')
-  body
+include ./layout.jade
+  block body
     .container
       .row
         span#back.glyphicon.glyphicon-chevron-left
@@ -25,6 +15,3 @@ html(lang='en')
                 input#msg.form-control(type='text', placeholder='Type here ...' required)
                 span.input-group-btn
                   button#send.btn.btn-primary(type='submit') send
-
-    
-    script(src='javascripts/bootstrap.min.js')
