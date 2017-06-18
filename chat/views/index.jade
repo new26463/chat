@@ -10,26 +10,26 @@ include ./layout.jade
         p(style="max-width:230px;display: block;margin: auto;margin-bottom:18px;")
           b 
             span กรุณากรอกข้อมูลก่อนเริ่มสนทนาค่ะ
-        form#login(action="/chat")
+        form#login(action="/" method="post")
           .form-group
             label
               b Username
                 span *
-            input#user_name.form-control(type='text',name='user_name' , placeholder='Enter your name' required)
+            input#user_name.form-control(type='text',name='username' , placeholder='Enter your name' required)
           .form-group  
             label
               b E-mail  
                 span *
-            input#user_email.form-control(type='email',name='user_email' , placeholder='Enter your e-mail' required)
+            input#user_email.form-control(type='email',name='email' , placeholder='Enter your e-mail' required)
           .form-group
             label
               b Phone Number
                 span *
-            input#user_phone.form-control(type='text',name='user_phone' , placeholder='Enter your phone number'  required)
+            input#user_phone.form-control(type='text',name='phone' , placeholder='Enter your phone number'  required)
           .form-group
             label
               b Question
                 span *
-            input#user_qus.form-control(type='text',name='user_qus' , placeholder='Enter your question' required)
+            input#user_qus.form-control(type='text',name='question' , placeholder='Enter your question' required)
           button#chat_now.btn.btn-primary(type='submit') Chat Now
   
