@@ -30,7 +30,7 @@ app.use(session({
 app.route('/')
   .get((req, res)=> {
     pageName : 'register'
-    if(req.session.username == undefined){
+    if(req.session.username === undefined){
       res.render('index')
       console.log(req.session.username)
     }else{
@@ -61,7 +61,7 @@ app.route('/')
 
   app.route('/chat')
     .get((req, res)=>{
-      if(req.session.username==undefined){
+      if(req.session.username===undefined){
         console.log(req.session.username)
         res.redirect('/');
       }else{
@@ -85,18 +85,14 @@ app.route('/')
 
   app.route('/admin')
     .get((req, res)=>{
-        console.log(req.body.idAdmin);
-      if(req.session.idAdmin===undefined){
-        res.render('login_admin',{
-          pageName : 'Admin ja'
-        })
+      pageName : 'Admin ja'
+      console.log(req.session.idAdmin);
+      if(req.session.idAdmin===undefined || req.session.idAdmin!='admin'){
+        res.render('login_admin')
       }else {
         console.log('eiei za 5566');
         res.redirect('/listChat');
       }
-      // else{
-      //   req.session.destroy()
-      // }
     })
     .post((req,res)=>{
       if((req.body.idAdmin === 'admin') && (req.body.passwordAdmin === '123456')){
@@ -104,7 +100,7 @@ app.route('/')
         req.session.passwordAdmin = req.body.passwordAdmin
         res.redirect('/listChat')
         console.log('login admin success')
-      }else{
+      }else if(req.session.idAdmin !='admin'){
         console.log('login admin failed')
         res.redirect('/admin');
       }
@@ -112,13 +108,14 @@ app.route('/')
 
   app.route('/listChat')
     .get((req,res)=>{
+      pageName : 'listroom by admin'
       console.log(req.session.idAdmin)
-      if(req.session.idAdmin===undefined){
+      if(req.session.idAdmin===undefined || req.session.idAdmin!='admin'){
         console.log('not found admin ja')
         res.redirect('/admin')
-      }else{
-        console.log('found admin ja')zz
-        // res.render('listRoom')
+      }else {
+        res.render('listroom')
+        console.log('found admin ja')
       }
     })
     .post((req,res)=>{
