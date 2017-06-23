@@ -9,8 +9,9 @@ var user_Schema = mongoose.Schema({
     question : String,
     message : {
       to : String,
-      form : String,
-      msg : String
+      from : String,
+      msg : String,
+      time : String
     }
 },{collection: 'chat'})
 

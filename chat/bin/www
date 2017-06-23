@@ -18,8 +18,8 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
+var chat = require('../chat')(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -88,3 +88,5 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+module.extended = server

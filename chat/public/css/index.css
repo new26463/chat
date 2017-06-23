@@ -2,6 +2,9 @@ body{
   font: 20px Montserrat, sans-serif;
   background-color: #e9e9e9 !important;
 }
+.navbar{
+  border: none !important;
+}
 input#msg{
   border-radius: 8px;
 }
@@ -20,6 +23,9 @@ input#msg{
   background: #fcfcfc;
   border-radius: 6px;
   border: 1px solid #ddd;
+}
+ul{
+  margin-bottom: 0;
 }
 #back{
   width: 50px;
@@ -63,7 +69,7 @@ nav.navbar-default{
   background-color: #521CA6;
 }
 nav.navbar{
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   min-height: 75px;
   margin-bottom: 20px;
 }

@@ -1,0 +1,13 @@
+include ./layout.jade
+  block body
+    form(align="center",action='/admin' , method="post",style="margin-top:10%;")
+      .container
+        div(style="margin-bottom:10px") 
+          label
+            b Username : &nbsp
+          input(type='text', name='idAdmin', required='')
+        div(style="margin-bottom:10px") 
+          label
+            b Password : &nbsp
+          input(type='password', name='passwordAdmin', required='')
+        button(type='submit') Login

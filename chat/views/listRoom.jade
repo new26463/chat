@@ -1,17 +1,31 @@
 include ./layout.jade
+  link(href='./css/listRoom.css', rel='stylesheet')
   block body
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='#') 
+            img(src='https://www.oohoo.io/assets/images/logo.png' height="28px" style="margin-left:10px;")
+        #myNavbar.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            form(method="post", action="/admin")
+              button.btn.btn-primary(type="submit",value="logout") Logout
+              //- li
+              //-   a(href='' onclick="$()")
+              //-     span.glyphicon.glyphicon-log-in
+              //-     |  Logout
     .container-fluid
       .row
         table.table.table-hover
           tr
-            th id room
             th name user
+            th E-mail
             th telephone
             th question
-            th name admin
+            th time
           tr 
-            td 15624
             td a 
+            td a@b
             td 0297978465
             td xxxxxxxxxxxxxxxxxx
-            td ABC
+            td 15:15:15 16/6/60

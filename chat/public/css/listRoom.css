@@ -1,0 +1,8 @@
+nav.navbar.navbar-inverse{
+  border-radius: 0;
+  height: 60px;
+  margin: 0;
+}
+nav.navbar.navbar-inverse>*{
+  margin-top: 5px;
+}
