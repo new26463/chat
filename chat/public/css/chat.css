@@ -39,14 +39,6 @@ button.btn.btn-danger{
   display: block;
   margin: 0 auto;
 }
-/*.footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 5rem;
-  text-align: center;
-}*/
 #chat-history {
     list-style: none;
     padding: 0 0 10px 0;

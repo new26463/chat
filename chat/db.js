@@ -11,9 +11,21 @@ var user_Schema = mongoose.Schema({
       to : String,
       from : String,
       msg : String,
-      time : String
+      time : Date
     }
 },{collection: 'chat'})
 
+// var admin_Schema = mongoose.Schema({
+//     doctype : String,
+//     nameAdmin : String,
+//     message : {
+//       to : String,
+//       from : String,
+//       msg : String,
+//       time : Date
+//     }
+// },{collection: 'chat'})
+
+console.log('eiei');
 
 module.exports =  { user : mongoose.model('user',user_Schema) }

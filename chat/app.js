@@ -6,16 +6,18 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session)
 const bodyParser = require('body-parser')
 const db = require('./db')
+const q = require('./q')
 const server = require('./chat')
 const store = new MongoStore({
   uri : 'mongodb://tinynew:mC3bTzkqVFFcSS4O@chatdb-shard-00-00-azz0h.mongodb.net:27017,chatdb-shard-00-01-azz0h.mongodb.net:27017,chatdb-shard-00-02-azz0h.mongodb.net:27017/tinynewchat?ssl=true&replicaSet=ChatDB-shard-0&authSource=admin',
   collection : 'session'
 })
-
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static('public'))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
+
+// เก็บ session
 
 app.use(session({
   store:  store,
@@ -28,6 +30,9 @@ app.use(session({
 }))
 
 app.route('/')
+
+  // เช็คว่ามีการเข้าสู่ระบบอยู่หรือไม่
+
   .get((req, res)=> {
     pageName : 'register'
     if(req.session.username === undefined){
@@ -37,11 +42,17 @@ app.route('/')
       res.redirect('/chat')
     }
   })
+
+  // เก็บข้อมูลที่ user กรอกใส่ใน session
+
   .post((req, res)=>{
     req.session.username = req.body.username
     req.session.email = req.body.email
     req.session.phone = req.body.phone
     req.session.question = req.body.question
+
+  //
+
     var user_contact = new db.user({
       doctype : 'docclient',
       username : req.session.username,
@@ -49,6 +60,7 @@ app.route('/')
       phone : req.session.phone,
       question : req.session.question
     })
+
     user_contact.save(err=>{
       if(err)
         console.log('error na ja' + err)
@@ -60,67 +72,80 @@ app.route('/')
   })
 
   app.route('/chat')
+
+    // ถ้ามีการเข้าถึง /chat จะเช็คว่า login แล้วหรือยัง
+
     .get((req, res)=>{
       if(req.session.username===undefined){
         console.log(req.session.username)
         res.redirect('/');
       }else{
         console.log('user login success');
-        // test destroy session
-        // console.log(req.session.username)
-        // console.log('eieieiei')
         res.render('chatRoom',{
           pageName : 'Chat Realtime eiei',
           data : req.session
         })
       }
     })
+
+    // ถ้ากดออกจากการสนทนา จะ destroy session
+
     .post((req,res)=>{
       req.session.destroy()
       res.redirect('/')
     })
-//
-//    login logout ยังไม่สมบูรณ์ บัคออกไม่ได้ งงงวยกับ session
-//
 
   app.route('/admin')
+
+    // เช็คว่ามีการเข้าสู่ระบบของ admin อยู่หรือไม่
+
     .get((req, res)=>{
       pageName : 'Admin ja'
       console.log(req.session.idAdmin);
-      if(req.session.idAdmin===undefined || req.session.idAdmin!='admin'){
+      if((req.session.idAdmin === undefined)){
+        console.log('not equal');
         res.render('login_admin')
-      }else {
-        console.log('eiei za 5566');
-        res.redirect('/listChat');
+      }else if((req.session.idAdmin==='admin')){
+        console.log('admin session')
+        res.redirect('/listChat')
       }
     })
+
+    // เช็ค login ว่าใช่ admin หรือไม่ ถ้าไม่ใช่จะทำลาย session กรณีกด logout
+
     .post((req,res)=>{
       if((req.body.idAdmin === 'admin') && (req.body.passwordAdmin === '123456')){
         req.session.idAdmin = req.body.idAdmin
         req.session.passwordAdmin = req.body.passwordAdmin
         res.redirect('/listChat')
         console.log('login admin success')
-      }else if(req.session.idAdmin !='admin'){
+      }else{
+        req.session.destroy()
         console.log('login admin failed')
-        res.redirect('/admin');
+        res.redirect('/admin')
       }
     })
 
   app.route('/listChat')
+
+    // เมื่อมีคนเข้าหน้าเว็บ /listChat เช็คว่าเป็น admin หรือไม่
+
     .get((req,res)=>{
       pageName : 'listroom by admin'
       console.log(req.session.idAdmin)
-      if(req.session.idAdmin===undefined || req.session.idAdmin!='admin'){
-        console.log('not found admin ja')
+      if(req.session.idAdmin!='admin'){
+        console.log('not found admin')
         res.redirect('/admin')
-      }else {
-        res.render('listroom')
+      }else if(req.session.idAdmin==='admin'){
         console.log('found admin ja')
-      }
-    })
-    .post((req,res)=>{
-      req.session.destroy()
-      console.log('logout naja')
-    })
+        res.render('listroom')
+    }
+  })
+
+  app.get('/q',(req,res)=>{
+    // res.send('q');
+    res.render('q')
+
+  })
 
 module.exports = app
